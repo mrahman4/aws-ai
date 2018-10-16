@@ -5,7 +5,7 @@
 .pub/
 
 test/
-
+doc/
 build/
 ios/.generated/
 ios/Flutter/Generated.xcconfig
