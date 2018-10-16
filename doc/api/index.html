@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="made with love by dartdoc 0.20.4">
+  <meta name="description" content="aws_ai API docs, for the Dart programming language.">
+  <title>aws_ai - Dart API docs</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body>
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">aws_ai package</li>
+  </ol>
+  <div class="self-name">aws_ai</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <h5><span class="package-name">aws_ai</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="aws_ai/aws_ai-library.html">aws_ai</a></li>
+    </ol>
+  </div>
+
+  <div class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1 id="aws_ai">aws_ai</h1>
+<p>Flutter package to wrap Amazon artificial intelligence (AI) services, which provide flutter community developers with the ability to add intelligence to their applications through an API call to pre-trained services rather than developing and training their own models.
+Amazon AI services are : </p><ul><li>Amazon Rekognition : built on technology used by Amazon Prime Photos to analyze billions of images daily, is a service that makes it easy to add image analysis to your applications. With Rekognition, you can detect objects, scenes, and faces in images, as well as search and compare faces between images.</li><li>Amazon Polly (still not implemented): a service that turns text into lifelike speech. Polly lets you create applications that speak in over two dozen languages with a wide variety of natural sounding male and female voices to enable you to build entirely new categories of speech-enabled products. </li><li>Amazon Lex (still not implemented) : uses the same technology as Amazon Alexa to provide advanced deep learning functionalities of automatic speech recognition (ASR) and natural language understanding (NLU) to enable you to build applications with conversational interfaces, commonly called chatbots.</li></ul>
+<h2 id="rekognition">Rekognition</h2><ul><li>####Face comparison (compareFaces)
+Sample Code</li></ul>
+<pre class="language-Flutter"><code class="language-Flutter">import 'package:aws_ai/src/RekognitionHandler.dart';
+
+File sourceImagefile, targetImagefile; //load source and target images in those File objects
+String accessKey, secretKey, region ; //load your aws account info in those variables
+
+Future&lt;String&gt; labelsArray = RekognitionHandler.compareFaces(accessKey, secretKey, region, sourceImagefile, targetImagefile);
+</code></pre>
+<p>Output will be a String contains JSON object with below format </p>
+<pre class="language-json"><code class="language-json">{
+ "FaceMatches": [
+    {
+       "Face": {
+          "BoundingBox": {
+             "Height": number,
+             "Left": number,
+             "Top": number,
+             "Width": number
+          },
+          "Confidence": number,
+          "Landmarks": [
+             {
+                "Type": "string",
+                "X": number,
+                "Y": number
+             }
+          ],
+          "Pose": {
+             "Pitch": number,
+             "Roll": number,
+             "Yaw": number
+          },
+          "Quality": {
+             "Brightness": number,
+             "Sharpness": number
+          }
+       },
+       "Similarity": number
+    }
+ ],
+ "SourceImageFace": {
+    "BoundingBox": {
+       "Height": number,
+       "Left": number,
+       "Top": number,
+       "Width": number
+    },
+    "Confidence": number
+ },
+ "SourceImageOrientationCorrection": "string",
+ "TargetImageOrientationCorrection": "string",
+ "UnmatchedFaces": [
+    {
+       "BoundingBox": {
+          "Height": number,
+          "Left": number,
+          "Top": number,
+          "Width": number
+       },
+       "Confidence": number,
+       "Landmarks": [
+          {
+             "Type": "string",
+             "X": number,
+             "Y": number
+          }
+       ],
+       "Pose": {
+          "Pitch": number,
+          "Roll": number,
+          "Yaw": number
+       },
+       "Quality": {
+          "Brightness": number,
+          "Sharpness": number
+       }
+    }
+ ]
+}
+</code></pre><ul><li>####Facial analysis (detectFaces)
+Sample Code</li></ul>
+<pre class="language-Flutter"><code class="language-Flutter">import 'package:aws_ai/src/RekognitionHandler.dart';
+
+File sourceImagefile; //load source image in this File object
+String accessKey, secretKey, region ; //load your aws account info in those variables
+
+Future&lt;String&gt; labelsArray = RekognitionHandler.detectFaces(accessKey, secretKey, region, sourceImagefile);
+</code></pre>
+<p>Output will be a String contains JSON object with below format </p>
+<pre class="language-json"><code class="language-json">{
+ "FaceDetails": [
+    {
+       "AgeRange": {
+          "High": number,
+          "Low": number
+       },
+       "Beard": {
+          "Confidence": number,
+          "Value": boolean
+       },
+       "BoundingBox": {
+          "Height": number,
+          "Left": number,
+          "Top": number,
+          "Width": number
+       },
+       "Confidence": number,
+       "Emotions": [
+          {
+             "Confidence": number,
+             "Type": "string"
+          }
+       ],
+       "Eyeglasses": {
+          "Confidence": number,
+          "Value": boolean
+       },
+       "EyesOpen": {
+          "Confidence": number,
+          "Value": boolean
+       },
+       "Gender": {
+          "Confidence": number,
+          "Value": "string"
+       },
+       "Landmarks": [
+          {
+             "Type": "string",
+             "X": number,
+             "Y": number
+          }
+       ],
+       "MouthOpen": {
+          "Confidence": number,
+          "Value": boolean
+       },
+       "Mustache": {
+          "Confidence": number,
+          "Value": boolean
+       },
+       "Pose": {
+          "Pitch": number,
+          "Roll": number,
+          "Yaw": number
+       },
+       "Quality": {
+          "Brightness": number,
+          "Sharpness": number
+       },
+       "Smile": {
+          "Confidence": number,
+          "Value": boolean
+       },
+       "Sunglasses": {
+          "Confidence": number,
+          "Value": boolean
+       }
+    }
+ ],
+ "OrientationCorrection": "string"
+}
+</code></pre><ul><li>####Unsafe image detection (detectModerationLabels)
+Sample Code</li></ul>
+<pre class="language-Flutter"><code class="language-Flutter">import 'package:aws_ai/src/RekognitionHandler.dart';
+
+File sourceImagefile; //load source image in this File object
+String accessKey, secretKey, region ; //load your aws account info in those variables
+
+Future&lt;String&gt; labelsArray = RekognitionHandler.detectModerationLabels(accessKey, secretKey, region, sourceImagefile);
+</code></pre>
+<p>Output will be a String contains JSON object with below format </p>
+<pre class="language-json"><code class="language-json">{
+ "ModerationLabels": [
+    {
+       "Confidence": number,
+       "Name": "string",
+       "ParentName": "string"
+    }
+ ]
+}
+</code></pre><ul><li>####Celebrity recognition (recognizeCelebrities)
+Sample Code</li></ul>
+<pre class="language-Flutter"><code class="language-Flutter">import 'package:aws_ai/src/RekognitionHandler.dart';
+
+File sourceImagefile; //load source image in this File object
+String accessKey, secretKey, region ; //load your aws account info in those variables
+
+Future&lt;String&gt; labelsArray = RekognitionHandler.recognizeCelebrities(accessKey, secretKey, region, sourceImagefile);
+</code></pre>
+<p>Output will be a String contains JSON object with below format </p>
+<pre class="language-json"><code class="language-json">{
+    "CelebrityFaces": [
+      {
+         "Face": {
+            "BoundingBox": {
+               "Height": number,
+               "Left": number,
+               "Top": number,
+               "Width": number
+            },
+            "Confidence": number,
+            "Landmarks": [
+               {
+                  "Type": "string",
+                  "X": number,
+                  "Y": number
+               }
+            ],
+            "Pose": {
+               "Pitch": number,
+               "Roll": number,
+               "Yaw": number
+            },
+            "Quality": {
+               "Brightness": number,
+               "Sharpness": number
+            }
+         },
+         "Id": "string",
+         "MatchConfidence": number,
+         "Name": "string",
+         "Urls": [ "string" ]
+      }
+    ],
+    "OrientationCorrection": "string",
+    "UnrecognizedFaces": [
+      {
+         "BoundingBox": {
+            "Height": number,
+            "Left": number,
+            "Top": number,
+            "Width": number
+         },
+         "Confidence": number,
+         "Landmarks": [
+            {
+               "Type": "string",
+               "X": number,
+               "Y": number
+            }
+         ],
+         "Pose": {
+            "Pitch": number,
+            "Roll": number,
+            "Yaw": number
+         },
+         "Quality": {
+            "Brightness": number,
+            "Sharpness": number
+         }
+      }
+    ]
+    }
+</code></pre><ul><li>####Text in image (detectText)
+Sample Code</li></ul>
+<pre class="language-Flutter"><code class="language-Flutter">import 'package:aws_ai/src/RekognitionHandler.dart';
+
+File sourceImagefile; //load source image in this File object
+String accessKey, secretKey, region ; //load your aws account info in those variables
+
+Future&lt;String&gt; labelsArray = RekognitionHandler.detectText(accessKey, secretKey, region, sourceImagefile);
+</code></pre>
+<p>Output will be a String contains JSON object with below format </p>
+<pre class="language-json"><code class="language-json">{
+ "TextDetections": [
+    {
+       "Confidence": number,
+       "DetectedText": "string",
+       "Geometry": {
+          "BoundingBox": {
+             "Height": number,
+             "Left": number,
+             "Top": number,
+             "Width": number
+          },
+          "Polygon": [
+             {
+                "X": number,
+                "Y": number
+             }
+          ]
+       },
+       "Id": number,
+       "ParentId": number,
+       "Type": "string"
+    }
+ ]
+}
+</code></pre><ul><li>####Object and scene detection (detectLabels)
+Sample Code</li></ul>
+<pre class="language-Flutter"><code class="language-Flutter">import 'package:aws_ai/src/RekognitionHandler.dart';
+
+File sourceImagefile; //load source image in this File object
+String accessKey, secretKey, region ; //load your aws account info in those variables
+
+Future&lt;String&gt; labelsArray = RekognitionHandler.detectLabels(accessKey, secretKey, region, sourceImagefile);
+</code></pre>
+<p>Output will be a String contains JSON object with below format </p>
+<pre class="language-json"><code class="language-json">{
+ "Labels": [
+    {
+       "Confidence": number,
+       "Name": "string"
+    }
+ ],
+ "OrientationCorrection": "string"
+}
+</code></pre>
+      </section>
+      
+        <section class="summary">
+            <h2>Libraries</h2>
+          <dl>
+            <dt id="aws_ai">
+              <span class="name"><a href="aws_ai/aws_ai-library.html">aws_ai</a></span>
+            </dt>
+            <dd>
+              
+            </dd>          </dl>
+        </section>
+
+  </div> <!-- /.main-content -->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    aws_ai 0.0.1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>
