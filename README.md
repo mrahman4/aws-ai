@@ -7,7 +7,7 @@ Amazon AI services are :
 * Amazon Lex (still not implemented) : uses the same technology as Amazon Alexa to provide advanced deep learning functionalities of automatic speech recognition (ASR) and natural language understanding (NLU) to enable you to build applications with conversational interfaces, commonly called chatbots.
 
 ## Rekognition
-* ####Face comparison (compareFaces)
+* #### Face comparison (compareFaces)
 Sample Code
 
 ```Flutter
@@ -16,7 +16,8 @@ import 'package:aws_ai/src/RekognitionHandler.dart';
 File sourceImagefile, targetImagefile; //load source and target images in those File objects
 String accessKey, secretKey, region ; //load your aws account info in those variables
 
-Future<String> labelsArray = RekognitionHandler.compareFaces(accessKey, secretKey, region, sourceImagefile, targetImagefile);
+RekognitionHandler rekognition = new RekognitionHandler(accessKey, secretKey, region); 
+Future<String> labelsArray = rekognition.compareFaces(sourceImagefile, targetImagefile);
 ```
 
 Output will be a String contains JSON object with below format 
@@ -26,74 +27,74 @@ Output will be a String contains JSON object with below format
     {
        "Face": {
           "BoundingBox": {
-             "Height": number,
-             "Left": number,
-             "Top": number,
-             "Width": number
+             "Height": "number",
+             "Left": "number",
+             "Top": "number",
+             "Width": "number"
           },
-          "Confidence": number,
+          "Confidence": "number",
           "Landmarks": [
              {
                 "Type": "string",
-                "X": number,
-                "Y": number
+                "X": "number",
+                "Y": "number"
              }
           ],
           "Pose": {
-             "Pitch": number,
-             "Roll": number,
-             "Yaw": number
+             "Pitch": "number",
+             "Roll": "number",
+             "Yaw": "number"
           },
           "Quality": {
-             "Brightness": number,
-             "Sharpness": number
+             "Brightness": "number",
+             "Sharpness": "number"
           }
        },
-       "Similarity": number
+       "Similarity": "number"
     }
  ],
  "SourceImageFace": {
     "BoundingBox": {
-       "Height": number,
-       "Left": number,
-       "Top": number,
-       "Width": number
+       "Height": "number",
+       "Left": "number",
+       "Top": "number",
+       "Width": "number"
     },
-    "Confidence": number
+    "Confidence": "number"
  },
  "SourceImageOrientationCorrection": "string",
  "TargetImageOrientationCorrection": "string",
  "UnmatchedFaces": [
     {
        "BoundingBox": {
-          "Height": number,
-          "Left": number,
-          "Top": number,
-          "Width": number
+          "Height": "number",
+          "Left": "number",
+          "Top": "number",
+          "Width": "number"
        },
-       "Confidence": number,
+       "Confidence": "number",
        "Landmarks": [
           {
              "Type": "string",
-             "X": number,
-             "Y": number
+             "X": "number",
+             "Y": "number"
           }
        ],
        "Pose": {
-          "Pitch": number,
-          "Roll": number,
-          "Yaw": number
+          "Pitch": "number",
+          "Roll": "number",
+          "Yaw": "number"
        },
        "Quality": {
-          "Brightness": number,
-          "Sharpness": number
+          "Brightness": "number",
+          "Sharpness": "number"
        }
     }
  ]
 }
 ```
 
-* ####Facial analysis (detectFaces)
+* #### Facial analysis (detectFaces)
 Sample Code
 
 ```Flutter
@@ -102,7 +103,8 @@ import 'package:aws_ai/src/RekognitionHandler.dart';
 File sourceImagefile; //load source image in this File object
 String accessKey, secretKey, region ; //load your aws account info in those variables
 
-Future<String> labelsArray = RekognitionHandler.detectFaces(accessKey, secretKey, region, sourceImagefile);
+RekognitionHandler rekognition = new RekognitionHandler(accessKey, secretKey, region);
+Future<String> labelsArray = rekognition.detectFaces(sourceImagefile);
 ```
 
 Output will be a String contains JSON object with below format 
@@ -111,69 +113,69 @@ Output will be a String contains JSON object with below format
  "FaceDetails": [
     {
        "AgeRange": {
-          "High": number,
-          "Low": number
+          "High": "number",
+          "Low": "number"
        },
        "Beard": {
-          "Confidence": number,
-          "Value": boolean
+          "Confidence": "number",
+          "Value": "boolean"
        },
        "BoundingBox": {
-          "Height": number,
-          "Left": number,
-          "Top": number,
-          "Width": number
+          "Height": "number",
+          "Left": "number",
+          "Top": "number",
+          "Width": "number"
        },
-       "Confidence": number,
+       "Confidence": "number",
        "Emotions": [
           {
-             "Confidence": number,
+             "Confidence": "number",
              "Type": "string"
           }
        ],
        "Eyeglasses": {
-          "Confidence": number,
-          "Value": boolean
+          "Confidence": "number",
+          "Value": "boolean"
        },
        "EyesOpen": {
-          "Confidence": number,
-          "Value": boolean
+          "Confidence": "number",
+          "Value": "boolean"
        },
        "Gender": {
-          "Confidence": number,
+          "Confidence": "number",
           "Value": "string"
        },
        "Landmarks": [
           {
              "Type": "string",
-             "X": number,
-             "Y": number
+             "X": "number",
+             "Y": "number"
           }
        ],
        "MouthOpen": {
-          "Confidence": number,
-          "Value": boolean
+          "Confidence": "number",
+          "Value": "boolean"
        },
        "Mustache": {
-          "Confidence": number,
-          "Value": boolean
+          "Confidence": "number",
+          "Value": "boolean"
        },
        "Pose": {
-          "Pitch": number,
-          "Roll": number,
-          "Yaw": number
+          "Pitch": "number",
+          "Roll": "number",
+          "Yaw": "number"
        },
        "Quality": {
-          "Brightness": number,
-          "Sharpness": number
+          "Brightness": "number",
+          "Sharpness": "number"
        },
        "Smile": {
-          "Confidence": number,
-          "Value": boolean
+          "Confidence": "number",
+          "Value": "boolean"
        },
        "Sunglasses": {
-          "Confidence": number,
-          "Value": boolean
+          "Confidence": "number",
+          "Value": "boolean"
        }
     }
  ],
@@ -181,7 +183,7 @@ Output will be a String contains JSON object with below format
 }
 ```
 
-* ####Unsafe image detection (detectModerationLabels)
+* #### Unsafe image detection (detectModerationLabels)
 Sample Code
 
 ```Flutter
@@ -190,7 +192,8 @@ import 'package:aws_ai/src/RekognitionHandler.dart';
 File sourceImagefile; //load source image in this File object
 String accessKey, secretKey, region ; //load your aws account info in those variables
 
-Future<String> labelsArray = RekognitionHandler.detectModerationLabels(accessKey, secretKey, region, sourceImagefile);
+RekognitionHandler rekognition = new RekognitionHandler(accessKey, secretKey, region);
+Future<String> labelsArray = rekognition.detectModerationLabels(sourceImagefile);
 ```
 
 Output will be a String contains JSON object with below format 
@@ -198,7 +201,7 @@ Output will be a String contains JSON object with below format
 {
  "ModerationLabels": [
     {
-       "Confidence": number,
+       "Confidence": "number",
        "Name": "string",
        "ParentName": "string"
     }
@@ -206,7 +209,7 @@ Output will be a String contains JSON object with below format
 }
 ```
 
-* ####Celebrity recognition (recognizeCelebrities)
+* #### Celebrity recognition (recognizeCelebrities)
 Sample Code
 
 ```Flutter
@@ -215,7 +218,8 @@ import 'package:aws_ai/src/RekognitionHandler.dart';
 File sourceImagefile; //load source image in this File object
 String accessKey, secretKey, region ; //load your aws account info in those variables
 
-Future<String> labelsArray = RekognitionHandler.recognizeCelebrities(accessKey, secretKey, region, sourceImagefile);
+RekognitionHandler rekognition = new RekognitionHandler(accessKey, secretKey, region);
+Future<String> labelsArray = rekognition.recognizeCelebrities(sourceImagefile);
 ```
 
 Output will be a String contains JSON object with below format 
@@ -225,31 +229,31 @@ Output will be a String contains JSON object with below format
       {
          "Face": {
             "BoundingBox": {
-               "Height": number,
-               "Left": number,
-               "Top": number,
-               "Width": number
+               "Height": "number",
+               "Left": "number",
+               "Top": "number",
+               "Width": "number"
             },
-            "Confidence": number,
+            "Confidence": "number",
             "Landmarks": [
                {
                   "Type": "string",
-                  "X": number,
-                  "Y": number
+                  "X": "number",
+                  "Y": "number"
                }
             ],
             "Pose": {
-               "Pitch": number,
-               "Roll": number,
-               "Yaw": number
+               "Pitch": "number",
+               "Roll": "number",
+               "Yaw": "number"
             },
             "Quality": {
-               "Brightness": number,
-               "Sharpness": number
+               "Brightness": "number",
+               "Sharpness": "number"
             }
          },
          "Id": "string",
-         "MatchConfidence": number,
+         "MatchConfidence": "number",
          "Name": "string",
          "Urls": [ "string" ]
       }
@@ -258,34 +262,34 @@ Output will be a String contains JSON object with below format
     "UnrecognizedFaces": [
       {
          "BoundingBox": {
-            "Height": number,
-            "Left": number,
-            "Top": number,
-            "Width": number
+            "Height": "number",
+            "Left": "number",
+            "Top": "number",
+            "Width": "number"
          },
-         "Confidence": number,
+         "Confidence": "number",
          "Landmarks": [
             {
                "Type": "string",
-               "X": number,
-               "Y": number
+               "X": "number",
+               "Y": "number"
             }
          ],
          "Pose": {
-            "Pitch": number,
-            "Roll": number,
-            "Yaw": number
+            "Pitch": "number",
+            "Roll": "number",
+            "Yaw": "number"
          },
          "Quality": {
-            "Brightness": number,
-            "Sharpness": number
+            "Brightness": "number",
+            "Sharpness": "number"
          }
       }
     ]
     }
 ```
 
-* ####Text in image (detectText)
+* #### Text in image (detectText)
 Sample Code
 
 ```Flutter
@@ -294,7 +298,8 @@ import 'package:aws_ai/src/RekognitionHandler.dart';
 File sourceImagefile; //load source image in this File object
 String accessKey, secretKey, region ; //load your aws account info in those variables
 
-Future<String> labelsArray = RekognitionHandler.detectText(accessKey, secretKey, region, sourceImagefile);
+RekognitionHandler rekognition = new RekognitionHandler(accessKey, secretKey, region);
+Future<String> labelsArray = rekognition.detectText(sourceImagefile);
 ```
 
 Output will be a String contains JSON object with below format 
@@ -302,31 +307,31 @@ Output will be a String contains JSON object with below format
 {
  "TextDetections": [
     {
-       "Confidence": number,
+       "Confidence": "number",
        "DetectedText": "string",
        "Geometry": {
           "BoundingBox": {
-             "Height": number,
-             "Left": number,
-             "Top": number,
-             "Width": number
+             "Height": "number",
+             "Left": "number",
+             "Top": "number",
+             "Width": "number"
           },
           "Polygon": [
              {
-                "X": number,
-                "Y": number
+                "X": "number",
+                "Y": "number"
              }
           ]
        },
-       "Id": number,
-       "ParentId": number,
+       "Id": "number",
+       "ParentId": "number",
        "Type": "string"
     }
  ]
 }
 ```
 
-* ####Object and scene detection (detectLabels)
+* #### Object and scene detection (detectLabels)
 Sample Code
 
 ```Flutter
@@ -335,7 +340,8 @@ import 'package:aws_ai/src/RekognitionHandler.dart';
 File sourceImagefile; //load source image in this File object
 String accessKey, secretKey, region ; //load your aws account info in those variables
 
-Future<String> labelsArray = RekognitionHandler.detectLabels(accessKey, secretKey, region, sourceImagefile);
+RekognitionHandler rekognition = new RekognitionHandler(accessKey, secretKey, region);
+Future<String> labelsArray = rekognition.detectLabels(sourceImagefile);
 ```
 
 Output will be a String contains JSON object with below format 
@@ -343,7 +349,7 @@ Output will be a String contains JSON object with below format
 {
  "Labels": [
     {
-       "Confidence": number,
+       "Confidence": "number",
        "Name": "string"
     }
  ],
