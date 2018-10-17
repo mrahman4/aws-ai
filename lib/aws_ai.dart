@@ -1,1 +1,1 @@
-export 'src/RekognitionHandler.dart' ;
+export 'src/RekognitionHandler.dart';

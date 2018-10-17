@@ -1,26 +1,33 @@
 import 'dart:convert';
-import 'package:intl/intl.dart';
 
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart';
+import 'package:intl/intl.dart';
 
-class Signature{
+class Signature {
   Signature();
 
-
-  static String generateSignature(String endpoint, String service, String region, String secretKey, String httpMethod, var now, String queryStringParamters, Map<String, String> headerParamters, String body )
-  {
-
+  static String generateSignature(
+      String endpoint,
+      String service,
+      String region,
+      String secretKey,
+      String httpMethod,
+      var now,
+      String queryStringParamters,
+      Map<String, String> headerParamters,
+      String body) {
     if (secretKey.isEmpty) {
-      throw("No keys provided");
+      throw ("No keys provided");
     }
 
     var amzFormatter = new DateFormat("yyyyMMdd'T'HHmmss'Z'");
-    String amzDate = amzFormatter.format(now); // format should be '20170104T233405Z"
+    String amzDate =
+        amzFormatter.format(now); // format should be '20170104T233405Z"
 
     var dateFormatter = new DateFormat('yyyyMMdd');
-    String dateStamp = dateFormatter.format(now); // Date w/o time, used in credential scope. format should be "20170104"
-
+    String dateStamp = dateFormatter.format(
+        now); // Date w/o time, used in credential scope. format should be "20170104"
 
     //************* TASK 1: CREATE A CANONICAL REQUEST *************
     //http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
@@ -55,58 +62,70 @@ class Signature{
     //String payload_hash = hashlib.sha256(utf8.encode(body)).hexdigest();
     var payloadHash = _digest(body);
 
-
     //Step 7: Combine elements to create canonical request
-    String canonicalRequest = httpMethod + '\n' + canonicalUri + '\n' + canonicalQuerystring + '\n' + canonicalHeaders + '\n' + signedHeaders + '\n' + payloadHash.toString() ;
+    String canonicalRequest = httpMethod +
+        '\n' +
+        canonicalUri +
+        '\n' +
+        canonicalQuerystring +
+        '\n' +
+        canonicalHeaders +
+        '\n' +
+        signedHeaders +
+        '\n' +
+        payloadHash.toString();
     var digest1 = _digest(canonicalRequest);
-
 
     //************* TASK 2: CREATE THE STRING TO SIGN*************
     //Match the algorithm to the hashing algorithm you use, either SHA-1 or
     //SHA-256 (recommended)
-    String algorithm = 'AWS4-HMAC-SHA256' ;
-    String credentialScope = dateStamp + '/' + region + '/' + service + '/' + 'aws4_request';
-    String stringToSign = algorithm + '\n' +  amzDate + '\n' +  credentialScope + '\n' +  digest1.toString();
+    String algorithm = 'AWS4-HMAC-SHA256';
+    String credentialScope =
+        dateStamp + '/' + region + '/' + service + '/' + 'aws4_request';
+    String stringToSign = algorithm +
+        '\n' +
+        amzDate +
+        '\n' +
+        credentialScope +
+        '\n' +
+        digest1.toString();
 
-    var signature ;
-    try{
+    var signature;
+    try {
       //************* TASK 3: CALCULATE THE SIGNATURE *************
       //Create the signing key using the function defined above.
       var signingKey = _getSignatureKey(secretKey, dateStamp, region, service);
 
       //Sign the string_to_sign using the signing_key
       signature = _signHex(signingKey, stringToSign);
-
-    }
-    catch(e)
-    {
+    } catch (e) {
       print(e);
     }
 
     return signature.toString();
   }
 
-  static String _getCanonicalFromDictionary(Map<String, String> dictionary)
-  {
+  static String _getCanonicalFromDictionary(Map<String, String> dictionary) {
     //OP format: 'content-type:' + content_type + '\n' + 'host:' + host + '\n' + 'x-amz-date:' + amz_date + '\n' + 'x-amz-target:' + amz_target + '\n'
     String output = "";
 
     void iterateMapEntry(key, value) {
       output += key + ":" + value + '\n';
     }
+
     dictionary.forEach(iterateMapEntry);
 
     return output;
   }
 
-  static String _getSignedParamters(Map<String, String> dictionary)
-  {
+  static String _getSignedParamters(Map<String, String> dictionary) {
     //OP format : 'content-type;host;x-amz-date;x-amz-target'
     String output = "";
 
     void iterateMapEntry(key, value) {
       output += key + ";";
     }
+
     dictionary.forEach(iterateMapEntry);
 
     output = output.substring(0, output.length - 1);
@@ -114,8 +133,7 @@ class Signature{
     return output;
   }
 
-  static _sign(var key, String msg)
-  {
+  static _sign(var key, String msg) {
     var _msg = utf8.encode(msg);
 
     var hmacSha256 = new Hmac(sha256, key); // HMAC-SHA256
@@ -124,12 +142,11 @@ class Signature{
     return digest.bytes;
   }
 
-  static _getSignatureKey(String key, String dateStamp, String regionName, String serviceName)
-  {
-
+  static _getSignatureKey(
+      String key, String dateStamp, String regionName, String serviceName) {
     var _key = utf8.encode('AWS4' + key);
 
-    var kDate = _sign( _key, dateStamp);
+    var kDate = _sign(_key, dateStamp);
 
     var kRegion = _sign(kDate, regionName);
 
@@ -140,8 +157,7 @@ class Signature{
     return kSigning;
   }
 
-  static _digest(String message)
-  {
+  static _digest(String message) {
     var firstChunk = utf8.encode(message);
     var ds = new DigestSink();
     var s = sha256.startChunkedConversion(ds);
@@ -159,16 +175,12 @@ class Signature{
     return ds.value;
   }*/
 
-  static _signHex(var key, String message)
-  {
+  static _signHex(var key, String message) {
     var _msg = utf8.encode(message);
 
     var hmacSha256 = new Hmac(sha256, key); // HMAC-SHA256
     var digest = hmacSha256.convert(_msg);
 
     return digest;
-
   }
-
-
 }

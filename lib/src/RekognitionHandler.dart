@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'Signature.dart';
+
 import 'package:intl/intl.dart';
 
-
-
+import 'Signature.dart';
 
 class RekognitionHandler {
   final String _accessKey, _secretKey, _region;
@@ -13,7 +12,6 @@ class RekognitionHandler {
   RekognitionHandler(this._accessKey, this._secretKey, this._region);
 
   Future<String> _rekognitionHttp(String amzTarget, String body) async {
-
     String endpoint = "https://rekognition.$_region.amazonaws.com/";
     String host = "rekognition.$_region.amazonaws.com";
     String httpMethod = "POST";
@@ -21,12 +19,14 @@ class RekognitionHandler {
 
     var now = new DateTime.now().toUtc();
     var amzFormatter = new DateFormat("yyyyMMdd'T'HHmmss'Z'");
-    String amzDate = amzFormatter.format(now); // format should be '20170104T233405Z"
+    String amzDate =
+        amzFormatter.format(now); // format should be '20170104T233405Z"
 
     var dateFormatter = new DateFormat('yyyyMMdd');
-    String dateStamp = dateFormatter.format(now); // Date w/o time, used in credential scope. format should be "20170104"
+    String dateStamp = dateFormatter.format(
+        now); // Date w/o time, used in credential scope. format should be "20170104"
 
-    int bodyLength = body.length ;
+    int bodyLength = body.length;
 
     String queryStringParamters = "";
     Map<String, String> headerParamters = {
@@ -37,15 +37,24 @@ class RekognitionHandler {
       "x-amz-target": amzTarget
     };
 
-    String signature = Signature.generateSignature(endpoint, service, _region, _secretKey, httpMethod, now, queryStringParamters, headerParamters, body);
+    String signature = Signature.generateSignature(
+        endpoint,
+        service,
+        _region,
+        _secretKey,
+        httpMethod,
+        now,
+        queryStringParamters,
+        headerParamters,
+        body);
 
-    String authorization = "AWS4-HMAC-SHA256 Credential=$_accessKey/$dateStamp/$_region/$service/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=$signature";
+    String authorization =
+        "AWS4-HMAC-SHA256 Credential=$_accessKey/$dateStamp/$_region/$service/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=$signature";
     headerParamters.putIfAbsent('Authorization', () => authorization);
 
     //String labelsArray = "";
     StringBuffer builder = new StringBuffer();
-    try{
-
+    try {
       HttpClient httpClient = new HttpClient();
       HttpClientRequest request = await httpClient.postUrl(Uri.parse(endpoint));
 
@@ -63,30 +72,27 @@ class RekognitionHandler {
       await for (String a in response.transform(utf8.decoder)) {
         builder.write(a);
       }
-
-    } catch(e){
+    } catch (e) {
       print(e);
     }
 
     return Future.value(builder.toString());
-
   }
 
-  Future<String> compareFaces(File sourceImagefile, File targetImagefile) async {
-
+  Future<String> compareFaces(
+      File sourceImagefile, File targetImagefile) async {
     try {
       List<int> sourceImageBytes = sourceImagefile.readAsBytesSync();
       String base64SourceImage = base64Encode(sourceImageBytes);
       List<int> targetImageBytes = targetImagefile.readAsBytesSync();
       String base64TargetImage = base64Encode(targetImageBytes);
-      String body = '{"SourceImage":{"Bytes": "$base64SourceImage"},"TargetImage":{"Bytes": "$base64TargetImage"}}';
+      String body =
+          '{"SourceImage":{"Bytes": "$base64SourceImage"},"TargetImage":{"Bytes": "$base64TargetImage"}}';
       String amzTarget = "RekognitionService.CompareFaces";
 
-      String response  = await _rekognitionHttp(amzTarget, body);
+      String response = await _rekognitionHttp(amzTarget, body);
       return response;
-    }
-    catch(e)
-    {
+    } catch (e) {
       print(e);
       return "{}";
     }
@@ -167,18 +173,15 @@ class RekognitionHandler {
   }
 
   Future<String> detectFaces(File imagefile) async {
-
     try {
       List<int> imageBytes = imagefile.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
       String body = '{"Image":{"Bytes": "$base64Image"}}';
       String amzTarget = "RekognitionService.DetectFaces";
 
-      String response  = await _rekognitionHttp(amzTarget, body);
+      String response = await _rekognitionHttp(amzTarget, body);
       return response;
-    }
-    catch(e)
-    {
+    } catch (e) {
       print(e);
       return "{}";
     }
@@ -258,22 +261,18 @@ class RekognitionHandler {
          "OrientationCorrection": "string"
       }
     */
-
   }
 
   Future<String> detectModerationLabels(File imagefile) async {
-
     try {
       List<int> imageBytes = imagefile.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
       String body = '{"Image":{"Bytes": "$base64Image"}}';
       String amzTarget = "RekognitionService.DetectModerationLabels";
 
-      String response  = await _rekognitionHttp(amzTarget, body);
+      String response = await _rekognitionHttp(amzTarget, body);
       return response;
-    }
-    catch(e)
-    {
+    } catch (e) {
       print(e);
       return "{}";
     }
@@ -290,22 +289,18 @@ class RekognitionHandler {
          ]
       }
     */
-
   }
 
   Future<String> recognizeCelebrities(File imagefile) async {
-
     try {
       List<int> imageBytes = imagefile.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
       String body = '{"Image":{"Bytes": "$base64Image"}}';
       String amzTarget = "RekognitionService.RecognizeCelebrities";
 
-      String response  = await _rekognitionHttp(amzTarget, body);
+      String response = await _rekognitionHttp(amzTarget, body);
       return response;
-    }
-    catch(e)
-    {
+    } catch (e) {
       print(e);
       return "{}";
     }
@@ -376,22 +371,18 @@ class RekognitionHandler {
            ]
         }
     */
-
   }
 
   Future<String> detectText(File imagefile) async {
-
     try {
       List<int> imageBytes = imagefile.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
       String body = '{"Image":{"Bytes": "$base64Image"}}';
       String amzTarget = "RekognitionService.DetectText";
 
-      String response  = await _rekognitionHttp(amzTarget, body);
+      String response = await _rekognitionHttp(amzTarget, body);
       return response;
-    }
-    catch(e)
-    {
+    } catch (e) {
       print(e);
       return "{}";
     }
@@ -424,23 +415,19 @@ class RekognitionHandler {
          ]
       }
     */
-
   }
 
   Future<String> detectLabels(File imagefile) async {
-
     try {
       List<int> imageBytes = imagefile.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
       String body = '{"Image":{"Bytes": "$base64Image"}}';
       String amzTarget = "RekognitionService.DetectLabels";
 
-      String response  = await _rekognitionHttp(amzTarget, body);
+      String response = await _rekognitionHttp(amzTarget, body);
 
       return response;
-    }
-    catch(e)
-    {
+    } catch (e) {
       print(e);
       return "{}";
     }
