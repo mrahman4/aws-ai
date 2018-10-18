@@ -3,8 +3,31 @@
 Flutter package to wrap Amazon artificial intelligence (AI) services, which provide flutter community developers with the ability to add intelligence to their applications through an API call to pre-trained services rather than developing and training their own models.
 Amazon AI services are : 
 * Amazon Rekognition : built on technology used by Amazon Prime Photos to analyze billions of images daily, is a service that makes it easy to add image analysis to your applications. With Rekognition, you can detect objects, scenes, and faces in images, as well as search and compare faces between images.
+* Amazon Translate : a neural machine translation service that delivers fast, high-quality, and affordable language translation.  
 * Amazon Polly (still not implemented): a service that turns text into lifelike speech. Polly lets you create applications that speak in over two dozen languages with a wide variety of natural sounding male and female voices to enable you to build entirely new categories of speech-enabled products. 
 * Amazon Lex (still not implemented) : uses the same technology as Amazon Alexa to provide advanced deep learning functionalities of automatic speech recognition (ASR) and natural language understanding (NLU) to enable you to build applications with conversational interfaces, commonly called chatbots.
+
+
+## Translate
+Sample Code
+
+```Flutter
+import 'package:aws_ai/src/TranslateHandler.dart';
+
+TranslateHandler translate = new TranslateHandler(accessKey, secretKey, region); 
+String output = await translate.translate(Languages.auto, Languages.fr, "اسمي محمد");
+```
+
+Output will be a String contains JSON object with below format 
+```json
+{
+   "SourceLanguageCode": "string",
+   "TargetLanguageCode": "string",
+   "TranslatedText": "string"
+}
+```
+"TranslatedText" will be in UTF8 format.
+
 
 ## Rekognition
 * #### Face comparison (compareFaces)

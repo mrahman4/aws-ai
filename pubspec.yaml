@@ -1,6 +1,6 @@
 name: aws_ai
 description: Flutter package to wrap Amazon artificial intelligence services
-version: 0.0.2
+version: 0.0.3
 author: Mohamed Hassan AbdulRahman <tashafeen.swd@gmail.com>
 homepage: https://github.com/mrahman4/aws-ai
 
