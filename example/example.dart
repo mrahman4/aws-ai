@@ -17,6 +17,6 @@ main() async {
 
 
   TranslateHandler translate = new TranslateHandler(accessKey, secretKey, region);
-  String output = await translate.translate(Languages.ar, Languages.en, "اسمي محمد");
+  String output = await translate.translate(TranslateLanguages.ar, TranslateLanguages.en, "اسمي محمد");
   print(output);
 }
