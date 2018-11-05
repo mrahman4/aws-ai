@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 
 
 
-enum Languages {
+enum TranslateLanguages {
   auto, //only for source language so Amazon auto detect the language
   en,     //English
   ar,     //Arabic
@@ -34,7 +34,7 @@ class TranslateHandler {
   Future<String> _formatHttpRequest(String service, String amzTarget, String body) async {
 
     String endpoint = "https://$service.$_region.amazonaws.com/";
-    String host = "rekognition.$_region.amazonaws.com";
+    String host = "$service.$_region.amazonaws.com";
     String httpMethod = "POST";
 
 
@@ -122,18 +122,18 @@ class TranslateHandler {
   }
 
   Future<String> translate(
-      Languages _sourceLanguage, Languages _targetLanguage, String _text) async {
+      TranslateLanguages _sourceLanguage, TranslateLanguages _targetLanguage, String _text) async {
 
     try
     {
-      if( _targetLanguage == Languages.auto )
+      if( _targetLanguage == TranslateLanguages.auto )
       {
         throw("Target language can't be auto");
       }
 
 
-      String sourceLanguage = _sourceLanguage != Languages.zh_TW ? describeEnum(_sourceLanguage) : "zh-TW";
-      String targetLanguage = _targetLanguage != Languages.zh_TW ? describeEnum(_targetLanguage) : "zh-TW";
+      String sourceLanguage = _sourceLanguage != TranslateLanguages.zh_TW ? describeEnum(_sourceLanguage) : "zh-TW";
+      String targetLanguage = _targetLanguage != TranslateLanguages.zh_TW ? describeEnum(_targetLanguage) : "zh-TW";
 
 
       var text = utf8.encode(_text);
@@ -141,10 +141,10 @@ class TranslateHandler {
       String response ,
           autoLanguage = sourceLanguage;
 
-      if( (_sourceLanguage != Languages.en) && (_targetLanguage != Languages.en) )
+      if( (_sourceLanguage != TranslateLanguages.en) && (_targetLanguage != TranslateLanguages.en) )
       {
-        response = await _translate(sourceLanguage, Languages.en.toString(), text);
-        sourceLanguage = describeEnum(Languages.en) ;
+        response = await _translate(sourceLanguage, TranslateLanguages.en.toString(), text);
+        sourceLanguage = describeEnum(TranslateLanguages.en) ;
         Map<String, dynamic> responseMap = json.decode(response);
         text = responseMap["TranslatedText"];
         autoLanguage  = responseMap["SourceLanguageCode"];
