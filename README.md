@@ -15,7 +15,7 @@ Sample Code
 import 'package:aws_ai/src/TranslateHandler.dart';
 
 TranslateHandler translate = new TranslateHandler(accessKey, secretKey, region); 
-String output = await translate.translate(Languages.auto, Languages.fr, "اسمي محمد");
+String output = await translate.translate(TranslateLanguages.auto, TranslateLanguages.fr, "اسمي محمد");
 ```
 
 Output will be a String contains JSON object with below format 
