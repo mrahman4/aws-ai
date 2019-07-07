@@ -69,7 +69,7 @@ class RekognitionHandler {
 
       HttpClientResponse response = await request.close();
 
-      await for (String a in response.transform(utf8.decoder)) {
+      await for (String a in utf8.decoder.bind(response)) {
         builder.write(a);
       }
     } catch (e) {
