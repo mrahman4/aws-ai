@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:aws_ai/src/rekognition_params/RekognitionParams.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 import 'Signature.dart';
@@ -172,11 +174,11 @@ class RekognitionHandler {
     */
   }
 
-  Future<String> detectFaces(File imagefile) async {
+  Future<String> detectFaces(File imagefile, {DetectFacesAttributes attributes = DetectFacesAttributes.DEFAULT}) async {
     try {
       List<int> imageBytes = imagefile.readAsBytesSync();
       String base64Image = base64Encode(imageBytes);
-      String body = '{"Image":{"Bytes": "$base64Image"}}';
+      String body = '{"Image":{"Bytes": "$base64Image"}, "Attributes": ["${describeEnum(attributes)}"]}';
       String amzTarget = "RekognitionService.DetectFaces";
 
       String response = await _rekognitionHttp(amzTarget, body);
