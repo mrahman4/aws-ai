@@ -140,6 +140,21 @@ class RekognitionHandler {
     }
   }
 
+  Future<String> deleteCollection(
+      String collectionId) async {
+    try {
+      String body =
+          '{"CollectionId":"$collectionId"}';
+      String amzTarget = "RekognitionService.DeleteCollection";
+
+      String response = await _rekognitionHttp(amzTarget, body);
+      return response;
+    } catch (e) {
+      print(e);
+      return "{}";
+    }
+  }
+
   Future<String> compareFaces(
       File sourceImagefile, File targetImagefile) async {
     try {
